@@ -37,9 +37,16 @@ export default function BookingPage() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const incrementValue = (field: string) => {
-    setFormData(prev => ({ ...prev, [field]: prev[field as keyof typeof prev] + 1 }));
-  };
+ const incrementValue = (field: string) => {
+  setFormData(prev => {
+    const value = prev[field as keyof typeof prev];
+    return {
+      ...prev,
+      [field]: typeof value === 'number' ? value + 1 : 1
+    };
+  });
+};
+
 
   const decrementValue = (field: string) => {
     setFormData(prev => ({ 
