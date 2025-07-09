@@ -3,8 +3,19 @@
 import { useState } from 'react';
 import { Calendar, Clock, MapPin, Users, Luggage, Plus, Minus } from 'lucide-react';
 
+type FormDataType = {
+  serviceType: string;
+  pickupDate: string;
+  pickupTime: string;
+  pickupLocation: string;
+  dropoffLocation: string;
+  passengers: number;
+  luggage: number;
+  accessible: boolean;
+};
+
 const BookingForm = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormDataType>({
     serviceType: 'From Airport',
     pickupDate: '',
     pickupTime: '',
@@ -24,20 +35,25 @@ const BookingForm = () => {
     'Corporate Service'
   ];
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = (field: keyof FormDataType, value: FormDataType[keyof FormDataType]) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const incrementValue = (field: string) => {
-    setFormData(prev => ({ ...prev, [field]: prev[field as keyof typeof prev] + 1 }));
-  };
-
-  const decrementValue = (field: string) => {
-    setFormData(prev => ({ 
-      ...prev, 
-      [field]: Math.max(0, (prev[field as keyof typeof prev] as number) - 1) 
+  const incrementValue = (field: 'passengers' | 'luggage') => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: prev[field] + 1
     }));
   };
+
+  const decrementValue = (field: 'passengers' | 'luggage') => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: Math.max(0, prev[field] - 1)
+    }));
+  };
+
+  // ... rest of your JSX remains unchanged
 
   return (
     <section className="section-padding">
