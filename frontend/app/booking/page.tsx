@@ -37,7 +37,7 @@ export default function BookingPage() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
- const incrementValue = (field: string) => {
+const incrementValue = (field: string) => {
   setFormData(prev => {
     const value = prev[field as keyof typeof prev];
     return {
@@ -47,13 +47,16 @@ export default function BookingPage() {
   });
 };
 
+const decrementValue = (field: string) => {
+  setFormData(prev => {
+    const value = prev[field as keyof typeof prev];
+    return {
+      ...prev,
+      [field]: typeof value === 'number' && value > 0 ? value - 1 : 0
+    };
+  });
+};
 
-  const decrementValue = (field: string) => {
-    setFormData(prev => ({ 
-      ...prev, 
-      [field]: Math.max(0, (prev[field as keyof typeof prev] as number) - 1) 
-    }));
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
